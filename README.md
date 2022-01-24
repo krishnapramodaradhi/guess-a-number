@@ -1,3 +1,3 @@
 # Guess a Number
 
-## Generated with expo-cli
+Generated with expo-cli
