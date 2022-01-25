@@ -4,6 +4,8 @@ import * as Fonts from 'expo-font';
 import { useState } from 'react';
 import StartGameScreen from './app/screens/StartGameScreen';
 import Header from './app/components/Header';
+import GuessingGameScreen from './app/screens/GuessingGameScreen';
+import GameOverScreen from './app/screens/GameOverScreen';
 
 const fetchFonts = () =>
   Fonts.loadAsync({
@@ -13,6 +15,13 @@ const fetchFonts = () =>
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState();
+  const [hasWon, setHasWon] = useState(false);
+
+  const handleNewGame = () => {
+    setSelectedNumber(null);
+    setHasWon(false);
+  };
 
   if (!isReady) {
     return (
@@ -23,10 +32,28 @@ export default function App() {
       />
     );
   }
+
+  let content = (
+    <StartGameScreen
+      setSelectedNumber={(selectedNumber) => setSelectedNumber(selectedNumber)}
+    />
+  );
+  if (selectedNumber) {
+    content = (
+      <GuessingGameScreen
+        selectedNumber={selectedNumber}
+        onWin={() => setHasWon(true)}
+      />
+    );
+  }
+
+  if (hasWon) {
+    content = <GameOverScreen resetGame={handleNewGame} />;
+  }
   return (
     <View style={styles.container}>
       <Header title='Guess a Number' />
-      <StartGameScreen />
+      {content}
     </View>
   );
 }

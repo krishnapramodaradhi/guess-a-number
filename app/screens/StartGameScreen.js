@@ -8,13 +8,14 @@ import {
   Alert,
   TouchableWithoutFeedback,
 } from 'react-native';
+import ChosenNumberContainer from '../components/ChosenNumberContainer';
 import Card from '../components/common/Card';
 import MainButton from '../components/common/MainButton';
 import TextBold from '../components/common/TextBold';
 import TextRegular from '../components/common/TextRegular';
 import colors from '../constants/colors';
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ setSelectedNumber }) => {
   const [enteredNumber, setEnteredNumber] = useState('');
   const [chosenNumber, setChosenNumber] = useState('');
 
@@ -27,6 +28,7 @@ const StartGameScreen = () => {
 
     setChosenNumber(selectedNumber);
     setEnteredNumber('');
+    Keyboard.dismiss();
   };
 
   const handleResetInput = () => {
@@ -40,11 +42,13 @@ const StartGameScreen = () => {
   if (chosenNumber) {
     confirmedOutput = (
       <Card style={styles.chosenNumberContainer}>
-        <TextRegular style={styles.chosenNumberTitle}>
-          Chosen Number
-        </TextRegular>
-        <TextBold style={styles.chosenNumber}>{chosenNumber}</TextBold>
-        <MainButton>Start Game</MainButton>
+        <ChosenNumberContainer
+          title='Chosen Number'
+          chosenNumber={chosenNumber}
+        />
+        <MainButton onPress={() => setSelectedNumber(chosenNumber)}>
+          Start Game
+        </MainButton>
       </Card>
     );
   }
@@ -115,20 +119,6 @@ const styles = StyleSheet.create({
   },
   chosenNumberContainer: {
     width: '90%',
-  },
-  chosenNumberTitle: {
-    fontSize: 18,
-  },
-  chosenNumber: {
-    fontSize: 60,
-    marginVertical: 5,
-    shadowColor: colors.primary,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.33,
-    color: colors.primary,
   },
 });
 

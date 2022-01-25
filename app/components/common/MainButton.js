@@ -15,7 +15,7 @@ const MainButton = ({ children, style, onPress }) => {
 const styles = StyleSheet.create({
   button: {
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     backgroundColor: colors.accent,
     borderRadius: 30,
   },
